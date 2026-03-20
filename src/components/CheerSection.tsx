@@ -1,10 +1,5 @@
 import { useState } from "react";
-import type { Log } from "../types";
-
-interface Props {
-  onCheer: (log: Omit<Log, "colorIndex">) => void;
-  cheerCount: number;
-}
+import { useCheerStore } from "../store/useCheerStore";
 
 const RANDOM_MESSAGES = [
   "화이팅! 멋진 개발자가 될 거예요!",
@@ -15,19 +10,16 @@ const RANDOM_MESSAGES = [
   "포기하지 마세요! 분명 잘 될 거예요!",
 ];
 
-const CheerSection = ({ onCheer, cheerCount }: Props) => {
+const CheerSection = () => {
   const [message, setMessage] = useState("");
+  const { logs, addLog } = useCheerStore();
 
   const handleSubmit = () => {
     const finalMessage = message.trim()
       ? message.trim()
       : RANDOM_MESSAGES[Math.floor(Math.random() * RANDOM_MESSAGES.length)];
 
-    onCheer({
-      id: Date.now(),
-      message: finalMessage,
-      createdAt: new Date(),
-    });
+    addLog(finalMessage);
     setMessage("");
   };
 
@@ -48,7 +40,7 @@ const CheerSection = ({ onCheer, cheerCount }: Props) => {
         응원하기 🎉
       </button>
       <p className="text-xs text-gray-400 text-center">
-        총 응원 수 : {cheerCount}
+        총 응원 수 : {logs.length}
       </p>
     </div>
   );

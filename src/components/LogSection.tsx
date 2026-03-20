@@ -1,11 +1,9 @@
-import type { Log } from "../types";
+import { useCheerStore } from "../store/useCheerStore";
 import LogItem from "./LogItem";
 
-interface Props {
-  logs: Log[];
-}
+const LogSection = () => {
+  const { logs } = useCheerStore();
 
-const LogSection = ({ logs }: Props) => {
   return (
     <div className="flex flex-col gap-3 p-4 bg-white rounded-2xl shadow-sm h-full overflow-y-auto">
       {logs.length === 0 ? (
